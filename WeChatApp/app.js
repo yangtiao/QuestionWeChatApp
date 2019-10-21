@@ -1,7 +1,7 @@
 //app.js
 const Bmob = require('utils/Bmob-1.6.5.min.js');
 const utils = require('utils/util.js');
-Bmob.initialize("", "");
+Bmob.initialize("fdf46626a3c550f8c8e09fa8de43acf0", "cea7369474d40e8745a7f2b4c25f9519");
 wx.u = utils
 App({
   onLaunch: function () {

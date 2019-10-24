@@ -23,9 +23,9 @@ Page({
   },
   onShareAppMessage(){
     return {
-      title: '答题酷',
+      title: '华特教育',
       path: '/pages/index/index',
-      imageUrl:'/images/logo.png'
+      //imageUrl:'/images/logo.png'
     }
   },
   about() {

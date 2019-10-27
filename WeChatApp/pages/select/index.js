@@ -43,18 +43,20 @@ Page({
   /**
    * 开始答题
    */
-  startAnswer (e){
-    if (this.data.selectQuestionMenu == '请选择'){
-      wx.showToast({
-        title: '请选择题目',
-        duration:1500,
-        image:'/images/warning.png'
-      })
-      return;
-    }
-    console.log(this.data.objectQuestionMenu[this.data.index].name)
+  startAnswer(event){
+    // if (this.data.selectQuestionMenu == '请选择'){
+    //   wx.showToast({
+    //     title: '请选择题目',
+    //     duration:1500,
+    //     image:'/images/warning.png'
+    //   })
+    //   return;
+    // }
+    console.log(event.currentTarget.dataset.item)
+    var item = event.currentTarget.dataset.item
+    // console.log(this.data.objectQuestionMenu[this.data.index].name)
     wx.navigateTo({
-      url: '/pages/answerInfo/index?id=' + this.data.objectQuestionMenu[this.data.index].objectId + '&questionMenu=' + this.data.objectQuestionMenu[this.data.index].name,
+      url: '/pages/answerInfo/index?id=' + item.objectId + '&questionMenu=' + item.name,
     })
   }
 })

@@ -1,5 +1,5 @@
 <!--pages/wrong/index.wxml-->
-<view>
+<!--<view>
   <view class='selectIcon'>
     <image src='/images/error.png' class='answer'></image>
   </view>
@@ -8,4 +8,7 @@
       {{selectQuestionMenu}}
     </view>
   </picker>
+</view>-->
+<view wx:for="{{objectQuestionMenu}}" >
+  <view class="item" data-item='{{item}}' bindtap='changeMenu'>{{item.questionMenu}}</view>
 </view>

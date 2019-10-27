@@ -21,7 +21,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#2db7f5",
-    "navigationBarTitleText": "华特教育",
+    "navigationBarTitleText": "华特教育在线",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
@@ -30,8 +30,8 @@
     "list": [
       {
         "text": "首页",
-        "iconPath": "images/answer.png",
-        "selectedIconPath": "images/answer-select.png",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-select.png",
         "pagePath": "pages/home/index"
       },
       {
@@ -47,17 +47,12 @@
         "pagePath": "pages/wrong/index"
       },
       {
-        "text": "排名",
-        "iconPath": "images/sort.png",
-        "selectedIconPath": "images/sort-select.png",
-        "pagePath": "pages/rank/index"
-      },
-      {
         "text": "我的",
         "iconPath": "images/my.png",
         "selectedIconPath": "images/my-select.png",
         "pagePath": "pages/my/index"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

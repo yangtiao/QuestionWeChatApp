@@ -1,5 +1,5 @@
 <!--pages/select/index.wxml-->
-<view>
+<!--<view>
   <view class='selectIcon'>
     <image src='/images/select.png' class='answer'></image>
   </view>
@@ -12,4 +12,7 @@
   <view class='start' bindtap='startAnswer'>
     开始答题
   </view>
+</view>-->
+<view wx:for="{{objectQuestionMenu}}" >
+  <view class="item" data-item='{{item}}' bindtap='startAnswer'>{{item.name}}</view>
 </view>

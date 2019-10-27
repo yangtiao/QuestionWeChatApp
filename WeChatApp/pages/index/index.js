@@ -42,7 +42,7 @@ Page({
   },
   goSign() {
     wx.reLaunch({
-      url: '/pages/select/index',
+      url: '/pages/home/index',
     })
   }
 })

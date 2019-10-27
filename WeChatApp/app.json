@@ -15,7 +15,8 @@
     "pages/rankList/index",
     "pages/my/index",
     "pages/historyList/index",
-    "pages/feedback/index"
+    "pages/feedback/index",
+    "pages/home/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -27,6 +28,12 @@
     "selectedColor": "#2db7f5",
     "color": "#909090",
     "list": [
+      {
+        "text": "首页",
+        "iconPath": "images/answer.png",
+        "selectedIconPath": "images/answer-select.png",
+        "pagePath": "pages/home/index"
+      },
       {
         "text": "答题",
         "iconPath": "images/answer.png",

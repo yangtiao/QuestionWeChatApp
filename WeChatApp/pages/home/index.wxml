@@ -1,2 +1,15 @@
-<!--pages/home/home.wxml-->
-<text></text>
+<!--pages/home/home.wxml
+<view style="font-size:60px;color:red;text-align:center;width:100%;"><text>宣传页面</text></view>
+-->
+<view>
+  <image class="picture" src="/images/home/001.jpg"></image>
+  <image class="picture" src="/images/home/002.jpg"></image>
+  <image class="picture" src="/images/home/003.jpg"></image>
+  <image class="picture" src="/images/home/004.jpg"></image>
+  <image class="picture" src="/images/home/005.jpg"></image>
+  <image class="picture" src="/images/home/006.jpg"></image>
+  <image class="picture" src="/images/home/007.jpg"></image>
+  <image class="picture" src="/images/home/008.jpg"></image>
+  <image class="picture" src="/images/home/009.jpg"></image>
+  <image class="picture" src="/images/home/010.jpg"></image>
+</view>

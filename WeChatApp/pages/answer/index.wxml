@@ -26,6 +26,12 @@
         <i-tag class="i-tags" name="多选" type="border" color="blue" wx:if="{{questionInfo.type==2}}">
           多选
         </i-tag>
+        <i-tag class="i-tags" name="判断" type="border" color="blue" wx:if="{{questionInfo.type==3}}">
+          判断
+        </i-tag>
+        <i-tag class="i-tags" name="不定项" type="border" color="blue" wx:if="{{questionInfo.type==4}}">
+          不定项
+        </i-tag>
         <text class='question-title'>{{questionInfo.title}}</text>
       </view>
     </view>
@@ -41,6 +47,23 @@
 
     <!--答案选择 - 多选-->
     <i-panel wx:if="{{questionInfo.type==2}}">
+      <i-checkbox-group current="{{currentD}}" wx:for="{{questionInfo.choseList}}" wx:key="{{item.id}}" data-id="{{item.isChose}}" bindchange="handleChangeD">
+        <i-checkbox disabled="{{disabled1}}" wx:key="{{index}}" position="left" wx:key="{{item.id}}" value="{{s[index]}}{{item.item}}">
+        </i-checkbox>
+      </i-checkbox-group>
+    </i-panel>
+
+    <!--答案选择 - 判断-->
+    <i-panel wx:if="{{questionInfo.type==3}}">
+      <i-radio-group wx:for="{{questionInfo.choseList}}" wx:key="item.id" current="{{current}}" data-id="{{item.isChose}}" bindchange="handleChange">
+
+        <i-radio disabled="{{disabled}}" position="left" value="{{s[index]}}{{item.item}}">
+        </i-radio>
+      </i-radio-group>
+    </i-panel>
+
+    <!--答案选择 - 不定项-->
+    <i-panel wx:if="{{questionInfo.type==4}}">
       <i-checkbox-group current="{{currentD}}" wx:for="{{questionInfo.choseList}}" wx:key="{{item.id}}" data-id="{{item.isChose}}" bindchange="handleChangeD">
         <i-checkbox disabled="{{disabled1}}" wx:key="{{index}}" position="left" wx:key="{{item.id}}" value="{{s[index]}}{{item.item}}">
         </i-checkbox>

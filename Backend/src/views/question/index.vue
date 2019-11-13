@@ -45,7 +45,7 @@
                         </el-select>
                     </el-form-item>
                 </el-row>
-                <el-row>
+                <!--<el-row>
                     <el-form-item label="图片">
                         <el-upload
                             :http-request="ImgReq"
@@ -59,7 +59,7 @@
                             avatar-uploader-icon"/>
                         </el-upload>
                     </el-form-item>
-                </el-row>
+                </el-row>-->
                 <el-row>
                     <el-form-item label="题目类型" label-width="80px" prop="type">
                         <el-select v-model="form.type" placeholder="请选择" size="small">
@@ -89,6 +89,22 @@
                                 <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
                             </el-checkbox>
                         </el-checkbox-group>
+                        <!-- 判断 -->
+                        <el-checkbox-group v-if="form.type === '3'" v-model="form.choseList" :max="1" class="select-group">
+                            <el-checkbox v-for="(item,index) in form.checkitems" :label="index" :key="item.id"  style="margin:0">
+                                <el-input v-model="item.item" size="small"></el-input>
+                                <el-button v-if="form.checkitems.length < 2 " type="text" @click="addOption"><i class="el-icon-circle-plus-outline"/></el-button>
+                                <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
+                            </el-checkbox>
+                        </el-checkbox-group>
+                        <!-- 不定项 -->
+                        <el-checkbox-group v-else-if="form.type === '4'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
+                            <el-checkbox v-for="(item,index) in form.checkitems" :label="index" :key="index" style="margin:0">
+                                <el-input v-model="item.item" size="small"></el-input>
+                                <el-button v-if="form.checkitems.length < 6 " type="text" @click="addOption"><i class="el-icon-circle-plus-outline"/></el-button>
+                                <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
+                            </el-checkbox>
+                        </el-checkbox-group>
                         <div v-else>请选择题目类型</div>
                     </el-form-item>
                 </el-row>
@@ -110,7 +126,16 @@
                 <el-form-item label="题目" prop="title">
                     <el-input v-model="form.title" size="small" type="textarea"></el-input>
                 </el-form-item>
-                <el-form-item label="图片" prop="picUrl">
+                <el-form-item label="所属套题" prop="menu">
+                    <el-select v-model="form.menu" placeholder="请选择" size="small" filterable>
+                        <el-option
+                                v-for="item in menu1"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value" />
+                    </el-select>
+                </el-form-item>
+                <!--<el-form-item label="图片" prop="picUrl">
                     <el-upload
                             :http-request="ImgReq"
                             :on-change="handleChange"
@@ -121,6 +146,42 @@
                         <img v-else-if="form.picUrl" :src="form.picUrl" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"/>
                     </el-upload>
+                </el-form-item>-->
+                <el-form-item label="题目类型" label-width="80px" prop="type">
+                    <el-select v-model="form.type" placeholder="请选择" size="small">
+                        <el-option
+                                v-for="item in type"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="答案选项" label-width="80px" prop="checkitems">
+                    <!-- 单选 -->
+                    <el-checkbox-group v-if="form.type === '单选'" v-model="form.choseList" :max="1" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="item.id" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                            <el-input v-model="item.item" size="small"></el-input>
+                        </el-checkbox>
+                    </el-checkbox-group>
+                    <!--多选-->
+                    <el-checkbox-group v-else-if="form.type === '多选'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                            <el-input v-model="item.item" size="small"></el-input>
+                        </el-checkbox>
+                    </el-checkbox-group>
+                    <!-- 判断 -->
+                    <el-checkbox-group v-if="form.type === '判断'" v-model="form.choseList" :max="1" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                            <el-input v-model="item.item" size="small"></el-input>
+                        </el-checkbox>
+                    </el-checkbox-group>
+                    <!-- 不定项 -->
+                    <el-checkbox-group v-else-if="form.type === '不定项'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                            <el-input v-model="item.item" size="small"></el-input>
+                        </el-checkbox>
+                    </el-checkbox-group>
+                    <div v-else>请选择题目类型</div>
                 </el-form-item>
                 <el-form-item label="帮助描述" prop="help">
                     <el-input v-model="form.help" size="small" type="textarea"></el-input>
@@ -185,6 +246,14 @@
                         value: '2',
                         label: '多选'
                     },
+                    {
+                        value: '3',
+                        label: '判断'
+                    },
+                    {
+                        value: '4',
+                        label: '不定项'
+                    },
                 ],
                 menu1:[],
                 pageSetting:{
@@ -210,12 +279,13 @@
                         {
                             prop:'menu',
                             label:'所属套题'
-                        },
-                        {
-                            prop:'picUrl',
-                            label:'图片',
-                            type: 'image'
                         }
+                        // ,
+                        // {
+                        //     prop:'picUrl',
+                        //     label:'图片',
+                        //     type: 'image'
+                        // }
                     ],
                     control:[
                         {
@@ -231,7 +301,7 @@
                 form:{
                     title:'',
                     menu:'',
-                    picUrl:'',
+                    // picUrl:'',
                     help:'',
                     type:'',
                     choseList:[],
@@ -257,9 +327,9 @@
         watch:{
             dialogVisible:function () {
                 if(!this.dialogVisible){
-                    if(this.form.picUrl){
-                        this.form.picUrl = ''
-                    }
+                    // if(this.form.picUrl){
+                    //     this.form.picUrl = ''
+                    // }
                     this.$refs['ruleForm'].resetFields();
                 }
             },
@@ -269,9 +339,9 @@
                     this.form.type=''
                     this.form.help=''
                     this.form.menu=''
-                    if(this.form.picUrl){
-                        this.form.picUrl = ''
-                    }
+                    // if(this.form.picUrl){
+                    //     this.form.picUrl = ''
+                    // }
                     if (this.$refs['ruleForm']) {
                         this.$refs['ruleForm'].resetFields();
                     }
@@ -313,7 +383,7 @@
                     query.skip(this.pageSetting.pageSize * (this.pageSetting.currentPage - 1))
                     query.order('-createdAt')
                     query.find().then(res1=>{
-                        console.log(res1)
+                        console.log('res1 : ' + JSON.stringify(res1))
                         for (var r of res1){
                             if(r.type == '1'){
                                 r.type = '单选'
@@ -365,7 +435,7 @@
                 var file = this.$Bmob.File(this.file.name, this.file.raw)
                 file.save().then(res => {
                     const fileRes = res[0]
-                    this.form.picUrl= fileRes.url
+                    // this.form.picUrl= fileRes.url
                     this.imgLoading = false
                 })
 
@@ -414,9 +484,9 @@
                     console.log(this.form)
                     query.set('id',this.form.objectId)
                     query.set('title',this.form.title)
-                    if(this.form.picUrl){
-                        query.set('picUrl',this.form.picUrl)
-                    }
+                    // if(this.form.picUrl){
+                    //     query.set('picUrl',this.form.picUrl)
+                    // }
                     if(this.form.help){
                         query.set('help',this.form.help)
                     }
@@ -457,7 +527,8 @@
                 this.form.objectId = scope.row.objectId
                 this.form.title = scope.row.title
                 this.form.type = scope.row.type
-                this.form.picUrl = scope.row.picUrl
+                // this.form.picUrl = scope.row.picUrl
+                this.form.choseList = scope.row.choseList
                 this.form.help = scope.row.help
                 this.form.menu = scope.row.menu
                 console.log(this.form)
@@ -481,9 +552,9 @@
                     type:this.form.type,
                     choseList:itemArr,
                 }
-                if(this.form.picUrl){
-                    params.picUrl = this.form.picUrl
-                }
+                // if(this.form.picUrl){
+                //     params.picUrl = this.form.picUrl
+                // }
                 if(this.form.help){
                     params.help = this.form.help
                 }

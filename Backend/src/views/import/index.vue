@@ -109,9 +109,9 @@
                     if (d['帮助描述']) {
                         d.help = d['帮助描述']
                     }
-                    if(d['图片链接']){
-                        d.picUrl = d['图片链接']
-                    }
+                    // if(d['图片链接']){
+                    //     d.picUrl = d['图片链接']
+                    // }
                     d.choseList = []
                     for(let key in d){
                         if (key === '题型') {
@@ -122,6 +122,12 @@
                                 case '多选题':
                                     d.type = '2'
                                     break
+                                case '判断题':
+                                    d.type = '3'
+                                    break
+                                case '不定项':
+                                    d.type = '4'
+                                    break        
                                 default:
                                     this.$message.warning('暂无此题目类型')
                             }
@@ -148,7 +154,7 @@
                         help: d.help ? d.help : '',
                         type: d.type,
                         choseList: d.choseList,
-                        picUrl: d.picUrl ? d.picUrl : '',
+                        // picUrl: d.picUrl ? d.picUrl : '',
                     })
                 }
                 this.batchQuestions(this.questions)

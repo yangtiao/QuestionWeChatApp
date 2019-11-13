@@ -23,15 +23,15 @@ Page({
   },
   onShareAppMessage(){
     return {
-      title: '华特教育',
+      title: '华特教育在线',
       path: '/pages/index/index',
-      //imageUrl:'/images/logo.png'
+      imageUrl:'/images/logo.png'
     }
   },
   about() {
     wx.showModal({
       title: '关于',
-      content: '本程序后端使用Bmob实现，仅供学习使用，请勿使用于商业用途，如有问题，请联系QQ：903363777',
+      content: '华特教育在线学习小程序',
       showCancel: false
     })
   }

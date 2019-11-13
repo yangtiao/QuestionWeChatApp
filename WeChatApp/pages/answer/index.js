@@ -67,15 +67,16 @@ Page({
         var Countdown = new $wuxCountDown({
           date: +(new Date) + 60000 * parseInt(time),
           render(date) {
+            const hours = this.leadingZeros(date.hours, 2) + ':'
             const min = this.leadingZeros(date.min, 2) + ':'
             const sec = this.leadingZeros(date.sec, 2) + ''
             //答题时间结束
-            if (date.min === 0 && date.sec === 0) {
+            if (date.hours === 0 && date.min === 0 && date.sec === 0) {
               console.log("时间结束")
               that.handleClick1();
             }
             this.setData({
-              Countdown: min + sec,
+              Countdown: hours + min + sec,
             })
           }
         })
@@ -124,8 +125,16 @@ Page({
       //单选
       var choose = this.data.current;
       this.data.result[this.data.index - 1].choose = [choose];
-    } else {
+    } else if (this.data.type == 2) {
       //多选
+      var choose = this.data.currentD;
+      this.data.result[this.data.index - 1].choose = [choose];
+    } else if(this.data.type == 3) {
+      //判断
+      var choose = this.data.current;
+      this.data.result[this.data.index - 1].choose = [choose];
+    } else {
+      //不定项
       var choose = this.data.currentD;
       this.data.result[this.data.index - 1].choose = [choose];
     }
@@ -255,9 +264,29 @@ Page({
           })
           return;
         }
-      } else {
+      } else if (type == '2') {
         const length = this.data.currentD.length;
         if (length == 0){
+          wx.showToast({
+            title: '请选择答案',
+            duration: 1500,
+            image: '/images/warning.png'
+          })
+          return;
+        }
+      } else if (type == '3') {
+          const current = this.data.current;
+          if (current == "") {
+            wx.showToast({
+              title: '请选择答案',
+              duration: 1500,
+              image: '/images/warning.png'
+            })
+            return;
+          }
+        } else {
+        const length = this.data.currentD.length;
+        if (length == 0) {
           wx.showToast({
             title: '请选择答案',
             duration: 1500,

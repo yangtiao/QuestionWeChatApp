@@ -34,3 +34,9 @@ view.userPic,.userPic>image,.userPic>view{
   height: 4px;
   background: #e9eaec;
 }
+.logout-view{
+  margin-top: 60px;
+}
+.login-text{
+  color: red;
+}

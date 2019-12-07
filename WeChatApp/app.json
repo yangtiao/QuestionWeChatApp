@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/home/index",
     "pages/select/index",
     "pages/answer/index",
     "pages/history/index",
@@ -15,8 +15,7 @@
     "pages/rankList/index",
     "pages/my/index",
     "pages/historyList/index",
-    "pages/feedback/index",
-    "pages/home/index"
+    "pages/feedback/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

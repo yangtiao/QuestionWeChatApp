@@ -5,7 +5,7 @@
       <view class="header-pic">
         <i-avatar size="large" wx:if="{{!userInfo.avatarUrl}}" i-class="userPic" shape="square"></i-avatar>
         <i-avatar size="large" wx:else shape="square" i-class="userPic" src="{{userInfo.avatarUrl}}"></i-avatar>
-        <text wx:if="{{!userInfo.avatarUrl}}" style="margin-left:15rpx;">未授权</text>
+        <text wx:if="{{!userInfo.avatarUrl}}" style="margin-left:15rpx;" bindtap="login" class="login-text">点击登录</text>
         <text wx:else style="margin-left:15rpx;">{{userInfo.nickName}}</text>
       </view>
     </i-col>
@@ -32,3 +32,6 @@
     <i-icon type="addressbook" color="#2db7f5" slot="icon" size='18'/>
   </i-cell>
 </i-cell-group>
+<view class="logout-view">
+  <button type="warn" disabled="{{disabled}}" bindtap="logout">退出登录</button>
+</view>

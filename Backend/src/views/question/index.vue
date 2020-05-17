@@ -158,27 +158,35 @@
                 </el-form-item>
                 <el-form-item label="答案选项" label-width="80px" prop="checkitems">
                     <!-- 单选 -->
-                    <el-checkbox-group v-if="form.type === '单选'" v-model="form.choseList" :max="1" class="select-group">
-                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="item.id" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                    <el-checkbox-group v-if="form.type === '1'" v-model="form.choseList" :max="1" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.checkitems" :label="index" :key="item.id" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
                             <el-input v-model="item.item" size="small"></el-input>
+                            <el-button v-if="form.checkitems.length < 6 " type="text" @click="addOption"><i class="el-icon-circle-plus-outline"/></el-button>
+                            <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
                         </el-checkbox>
                     </el-checkbox-group>
                     <!--多选-->
-                    <el-checkbox-group v-else-if="form.type === '多选'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
-                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                    <el-checkbox-group v-else-if="form.type === '2'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.checkitems" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
                             <el-input v-model="item.item" size="small"></el-input>
+                            <el-button v-if="form.checkitems.length < 6 " type="text" @click="addOption"><i class="el-icon-circle-plus-outline"/></el-button>
+                            <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
                         </el-checkbox>
                     </el-checkbox-group>
                     <!-- 判断 -->
-                    <el-checkbox-group v-if="form.type === '判断'" v-model="form.choseList" :max="1" class="select-group">
-                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                    <el-checkbox-group v-if="form.type === '3'" v-model="form.choseList" :max="1" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.checkitems" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
                             <el-input v-model="item.item" size="small"></el-input>
+                            <el-button v-if="form.checkitems.length < 6 " type="text" @click="addOption"><i class="el-icon-circle-plus-outline"/></el-button>
+                            <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
                         </el-checkbox>
                     </el-checkbox-group>
                     <!-- 不定项 -->
-                    <el-checkbox-group v-else-if="form.type === '不定项'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
-                        <el-checkbox v-for="(item,index) in form.choseList" v-if="item.item" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
+                    <el-checkbox-group v-else-if="form.type === '4'" v-model="form.choseList" :max="form.checkitems.length" class="select-group">
+                        <el-checkbox v-for="(item,index) in form.checkitems" :label="index" :key="index" v-bind="{'checked':item.isChose?true:false}" style="margin:0">
                             <el-input v-model="item.item" size="small"></el-input>
+                            <el-button v-if="form.checkitems.length < 6 " type="text" @click="addOption"><i class="el-icon-circle-plus-outline"/></el-button>
+                            <el-button v-if="form.checkitems.length > 1 " type="text" @click="removeOption(index)"><i class="el-icon-remove-outline"/></el-button>
                         </el-checkbox>
                     </el-checkbox-group>
                     <div v-else>请选择题目类型</div>
@@ -342,6 +350,8 @@
                     // if(this.form.picUrl){
                     //     this.form.picUrl = ''
                     // }
+                    this.form.checkitems = [{item:''}]
+                    this.form.choseList = []
                     if (this.$refs['ruleForm']) {
                         this.$refs['ruleForm'].resetFields();
                     }
@@ -387,8 +397,12 @@
                         for (var r of res1){
                             if(r.type == '1'){
                                 r.type = '单选'
-                            }else{
+                            }else if(r.type == '2'){
                                 r.type = '多选'
+                            }else if(r.type == '3'){
+                                r.type = '判断'
+                            }else if(r.type == '4'){
+                                r.type = '不定项'
                             }
                             for (var m of this.menu){
                                 if(r.menu == m.value){
@@ -447,6 +461,7 @@
                 this.file = fileList[fileList.length -1 ]
             },
             addOption(){
+              console.log('addOption');
                 this.form.checkitems.push({
                     item:''
                 })
@@ -480,16 +495,19 @@
             handleEditSubmit(formName){
                 this.$refs[formName].validate((valid)=>{
                     this.loading = true
+                    var params = this.returnParams()
                     var query = this.$Bmob.Query('questions')
-                    console.log(this.form)
-                    query.set('id',this.form.objectId)
-                    query.set('title',this.form.title)
-                    // if(this.form.picUrl){
-                    //     query.set('picUrl',this.form.picUrl)
-                    // }
-                    if(this.form.help){
-                        query.set('help',this.form.help)
+                    for(var p in params){
+                        query.set(p,params[p])
                     }
+                    query.set('id',this.form.objectId)
+                    // query.set('title',this.form.title)
+                    // // if(this.form.picUrl){
+                    // //     query.set('picUrl',this.form.picUrl)
+                    // // }
+                    // if(this.form.help){
+                    //     query.set('help',this.form.help)
+                    // }
                     query.save().then(res => {
                         this.$message.success('编辑成功')
                         this.editDialogVisible = false
@@ -526,12 +544,31 @@
                 this.editDialogVisible = true
                 this.form.objectId = scope.row.objectId
                 this.form.title = scope.row.title
-                this.form.type = scope.row.type
-                // this.form.picUrl = scope.row.picUrl
-                this.form.choseList = scope.row.choseList
+                if(scope.row.type == '单选'){
+                    this.form.type = '1'
+                }else if(scope.row.type == '多选'){
+                    this.form.type = '2'
+                }else if(scope.row.type == '判断'){
+                    this.form.type = '3'
+                }else if(scope.row.type == '不定项'){
+                    this.form.type = '4'
+                }
+
+                this.form.choseList = []
+                this.form.checkitems = []
+                for (let c of scope.row.choseList) {
+                  if(c instanceof Object){
+                    this.form.checkitems.push(c)
+                  }else{
+                    this.form.choseList.push(c)
+                  }
+                }
+                // this.form.type = scope.row.type
+                // this.form.choseList = scope.row.choseList
+                // this.form.checkitems = scope.row.choseList
                 this.form.help = scope.row.help
                 this.form.menu = scope.row.menu
-                console.log(this.form)
+                console.log("handleEdit this.form: " + JSON.stringify(this.form));
             },
             returnParams(){
                 console.log(this.form.checkitems)
